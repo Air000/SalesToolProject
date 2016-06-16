@@ -4,6 +4,7 @@ import {
 	ListView,
 	View,
 	ScrollView,
+	TouchableHighlight,
 	StyleSheet
 } from 'react-native';
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view';
@@ -58,40 +59,50 @@ class ProductsList extends React.Component {
 	}
 }
 
+class VendorsList extends React.Component {
+	constructor(props, context) {
+	    super(props, context);
+		this.state = {
+	      vendorAndProducts: props.vendorAndProducts,
+	      collapsed: true
+	    };
+	}
+	_toggleExpanded = () => {
+	    this.setState({ collapsed: !this.state.collapsed });
+	}
+	render() {
+		return (
+			<View>
+				<TouchableHighlight onPress={this._toggleExpanded}>
+					<View style={styles.header}>
+						<Text style={styles.headerText}>{this.state.vendorAndProducts.brand}</Text>
+					</View>
+				</TouchableHighlight>
+				<Collapsible collapsed={this.state.collapsed} align="center">
+					<ProductsList style={styles.content} products={this.state.vendorAndProducts.products} />
+				</Collapsible>
+			</View>
+		)
+	}
+}
+
 class vendorsInfo extends React.Component {
 	_back() {
 		this.props.navigator.pop();
-	}
-	_renderHeader(section, i, isActive) {
-	    return (
-	      <View style={[styles.header, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
-	        <Text style={styles.headerText}>{section.brand}</Text>
-	      </View>
-	    );
-	}
-
-	_renderContent(section, i, isActive) {
-		return (
-		  <View style={[styles.content, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
-		  	<ProductsList products={section.products} />
-		  </View>
-		);
 	}
 	render() {
 		return (
 			<ScrollableTabView tabBarUnderlineColor='#55ACEE' tabBarActiveTextColor='#55ACEE' renderTabBar={() => <DefaultTabBar />} >
 		      	<ScrollView tabLabel='Sort by Brands' >	
-				      	<Accordion 
-							sections={ChipsDB}
-							renderHeader={this._renderHeader}
-							renderContent={this._renderContent}
-							duration={10} />
+				 	{ChipsDB.map(createVendorRow)}     	
 				</ScrollView>			
 		        <Text tabLabel='Sort by Categories'>favorite</Text>
 	    	</ScrollableTabView>
 		);
 	}
 }
+var createVendorRow = (vendorAndProducts, i) => <VendorsList key={i} vendorAndProducts={vendorAndProducts} />;
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
