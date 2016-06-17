@@ -1,0 +1,209 @@
+{
+	"allProducts": [
+		{
+			"brand": "TI",
+			"products": [
+				{
+					"category": "Power",
+				   	"chips": [
+				   		{"pn": "TPS61032PWPR", "description": "Buck Boost DC/DC"},
+				   		{"pn": "TPS5450", "description": "DC/DC"},
+				   		{"pn": "TPS63036YFGR", "description": "DC/DC"}
+				   	]
+				},
+				{
+					"category": "interface",
+					"chips": [
+						{"pn": "TS5A23166DCUR", "description": "Switch"},
+						{"pn": "SN74LVC2G125DCU", "description": "Buffer"}
+					]
+				},
+				{
+					"category": "others",
+					"chips": [
+						{"pn": "TPS2065DBVT", "description": "ESD protection IC"}
+					]
+				}
+			]
+		},
+		{
+			"brand": "NXP",
+			"products": [
+				{
+					"category": "Embedded Processor",
+					"chips": [
+						{"pn":"MCIMX6*","description": "MPU processor"},
+						{"pn":"LPC11U35","description": "MCU"}
+					]			
+				},
+				{
+					"category": "Power",
+				   	"chips": [
+				   		{"pn": "MMPF0100", "description": "PMU"}
+				   	]
+				},
+				{
+					"category": "Signal Chain",
+					"chips": [
+						{"pn": "PTN5100", "description": "USB TYPE C PHY"},
+						{"pn": "PTN3355", "description": "Video (VGA) converter"}
+					]
+				},
+				{
+					"category": "Sensors",
+					"chips": [
+						{"pn": "NXPxxx", "description": "Tire Pressure sensor"}
+					]
+				},
+				{
+					"category": "interface",
+					"chips": [
+						{"pn": "SGTL5000XNAA3/R2", "description": "Audio Codec"},
+						{"pn": "TEF6640", "description": "Tuner"},
+						{"pn": "TDF8546", "description": "Audio Amplifier"}
+					]
+				},
+				
+			]
+		},
+		{
+			"brand": "Micron",
+			"products": [
+				{
+					"category": "Memory",
+				    "chips": [
+				    	{"pn": "MT41J128M16HA-15E", "description": "DDR3 RAM"},
+				    	{"pn": "MTxxxx", "description": "EMMC"}
+				    ]
+				}
+			]
+		},
+		{
+			"brand": "ISSI",
+			"products": [
+				{
+					"category": "Memory",
+				    "chips": [
+				    	{"pn": "ISSIxxxx", "description": "DDR3 RAM"}
+				    ]
+				}
+				
+			]
+		},
+		{
+			"brand": "Toshiba",
+			"products": [
+				{
+					"category": "Memory",
+				    "chips": [
+				    	{"pn": "THGBM4G5D1HBAIR", "description": "EMMC"}
+				    ]
+				}
+			]
+		},
+		{
+			"brand": "ST",
+			"products": [
+				{
+					"category": "Sensors",
+					"chips": [
+						{"pn": "LSM303DLM", "description": "Accelerometers + Magnetic sensor"},
+						{"pn": "L3G4200D", "description": "Accelerometers + Gyro + Magnetic sensor"}
+					]
+				},
+				{
+					"category": "others",
+					"chips": [
+						{"pn": "HSP061 -4NY8", "description": "ESD protection diode"}
+					]
+				}
+			]
+		},
+		{
+			"brand": "Onsemi",
+			"products": [
+				{
+					"category": "Power",
+				   	"chips": [
+				   		{"pn": "NCP161AMX330TBG", "description": "LDO"},
+				   		{"pn": "NTNS3164NZ", "description": "N-Channel MOS"}
+				   	]
+				},
+				{
+					"category": "Sensors",
+					"chips": [
+						{"pn": "Onsxxxxx", "description": "CMOS camera sensor"}
+					]
+				},
+				{
+					"category": "others",
+					"chips": [
+						{"pn": "EMI2121", "description": "EMI filter"}
+					]
+				}
+			]
+		},
+		{
+			"brand": "Analog Device",
+			"products": [
+				{
+					"category": "interface",
+					"chips": [
+						{"pn": "ADV7180", "description": "Video decoder"}
+					]
+				}
+			]
+		},
+		{
+			"brand": "Vishay",
+			"products": [
+				{
+					"category": "Power",
+				   	"chips": [
+				   		{"pn": "SI1967DH-T1-GE3", "description": "P-Channel MOS (Dual)"}
+				   	]
+				}
+			]
+		},
+		{
+			"brand": "Foxconn",
+			"products": [
+				{
+					"category": "IP&E",
+					"chips": [
+						{"pn": "DZ11AA2-H5W6-4F", "description": "VGA connector"},
+						{"pn": "UT00313-10001-7H", "description": "USB TYPE C Plug"}
+					]
+				}
+			]
+		},
+		{
+			"brand": "Cypress",
+			"products": [
+				{
+					"category": "Embedded Processor",
+					"chips": [
+						{"pn": "CYPD1120-40LQXI", "description": "USB TYPE C Controller"}
+					]			
+				},
+				{
+					"category": "Signal Chain",
+					"chips": [
+						{"pn": "CY7C65210-24LTXI", "description": "USB Bill board IC"}
+					]
+				}
+			]
+		},
+		{
+			"brand": "Murata",
+			"products": [
+				{
+					"category": "Connectivity",
+					"chips": [
+						{"pn": "CMEH19BAAA", "description": "3 in 1 combo module (Wifi + BT + FM)"}
+					]
+				}
+			]
+		}
+	]
+}

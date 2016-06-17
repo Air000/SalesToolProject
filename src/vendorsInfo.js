@@ -11,7 +11,7 @@ import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 
-var ChipsDB = require('../data/products').allProducts;
+var ChipsDB = require('../data/productsOfVendor').allProducts;
 
 class ChipsList extends React.Component {
 	constructor(props, context) {

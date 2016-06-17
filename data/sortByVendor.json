@@ -1,0 +1,172 @@
+[
+	{
+		"TI": 
+		[
+			{
+				"Power": [
+					{"TPS61032PWPR": "Buck Boost DC/DC"},
+					{"TPS5450": "DC/DC"},
+					{"TPS63036YFGR": "DC/DC"}
+				]
+			},
+			{
+				"interface": [
+					{"TS5A23166DCUR": "Switch"},
+					{"SN74LVC2G125DCU": "Buffer"}
+				]
+			},
+			{
+				"others": [
+					{"TPS2065DBVT": "ESD protection IC"}
+				]
+			}
+		]
+	},
+	{
+		"NXP":[
+			{
+				"Embedded Processor": [
+					{"MCIMX6*": "MPU processor"},
+					{"LPC11U35": "MCU"}
+				]
+			},
+			{
+				"Power": [
+					{"MMPF0100": "PMU"}
+				]
+			},
+			{
+				"Signal Chain": [
+					{"PTN5100": "USB TYPE C PHY"},
+					{"PTN3355": "Video (VGA) converter"}
+				]
+			},
+			{
+				"Sensors": [
+					{"NXPxxx": "Tire Pressure sensor"}
+				]
+			},
+			{
+				"interface": [
+					{"SGTL5000XNAA3/R2": "Audio Codec"},
+					{"TEF6640": "Tuner"},
+					{"TDF8546": "Audio Amplifier"}
+				]
+			}
+		]
+	},
+	{
+		"Micron": [
+			{
+				"Memory": [
+					{"MT41J128M16HA-15E": "DDR3 RAM"},
+			    	{"MTxxxx": "EMMC"}
+				]
+			}
+		]
+	},
+	{
+		"ISSI" :[
+			{
+				"Memory": [
+					{"ISxxxx": "DDR3 RAM"}
+				]
+			}
+		]
+	},
+	{
+		"Toshiba": [
+			{
+				"Memory": [
+					{"THGBM4G5D1HBAIR": "EMMC"}
+				]
+			}
+		]
+	},
+	{
+		"ST": [
+			{
+				"Sensors":[
+					{"LSM303DLM": "Accelerometers + Magnetic sensor"},
+					{"L3G4200D": "Accelerometers + Gyro + Magnetic sensor"}
+				]
+			},
+			{
+				"others": [
+					{"HSP061 -4NY8": "ESD protection diode"}
+				]
+			}
+		]
+	},
+	{
+		"Onsemi": [
+			{
+				"Power": [
+					{"NCP161AMX330TBG": "LDO"},
+				   	{"NTNS3164NZ": "N-Channel MOS"}
+				]
+			},
+			{
+				"Sensors": [
+					{"Senxxxx": "CMOS camera sensor"}
+				]
+			},
+			{
+				"others": [
+					{"EMI2121": "EMI filter"}
+				]
+			}
+		]
+	},
+	{
+		"Analog Device": [
+			{
+				"interface": [
+					{"ADV7180": "Video decoder"}
+				]
+			}
+		]
+	},
+	{
+		"Vishay": [
+			{
+				"Power": [
+					{"SI1967DH-T1-GE3": "P-Channel MOS (Dual)"}
+				]
+			}
+		]
+	},
+	{
+		"Foxconn": [
+			{
+				"IP&E": [
+					{"DZ11AA2-H5W6-4F": "VGA connector"},
+					{"UT00313-10001-7H": "USB TYPE C Plug"}
+				]
+			}
+		]
+	},
+	{
+		"Cypress": [
+			{
+				"Embedded Processor": [
+					{"CYPD1120-40LQXI": "USB TYPE C Controller"}
+				]
+			},
+			{
+				"Signal Chain": [
+					{"CY7C65210-24LTXI": "USB Bill board IC"}
+				]
+			}
+		]
+	},
+	{
+		"Murata": [
+			{
+				"Connectivity":[
+					{"CMEH19BAAA": "3 in 1 combo module (Wifi + BT + FM)"}
+				]
+			}
+		]
+	}
+]
