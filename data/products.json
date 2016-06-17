@@ -111,7 +111,7 @@
 				{
 					"category": "Sensors",
 					"chips": [
-						{"pn": "", "description": "Tire Pressure sensor"}
+						{"pn": "NXPxxxx", "description": "Tire Pressure sensor"}
 					]
 				},
 				{
@@ -155,7 +155,7 @@
 					"category": "Memory",
 				    "chips": [
 				    	{"pn": "MT41J128M16HA-15E", "description": "DDR3 RAM"},
-				    	{"pn": "", "description": "EMMC"}
+				    	{"pn": "MTxxxxx", "description": "EMMC"}
 				    ]
 				},
 				{
@@ -210,7 +210,7 @@
 				{
 					"category": "Memory",
 				    "chips": [
-				    	{"pn": "", "description": "DDR3 RAM"}
+				    	{"pn": "ISSIxxx", "description": "DDR3 RAM"}
 				    ]
 				},
 				{
@@ -397,7 +397,7 @@
 				{
 					"category": "Sensors",
 					"chips": [
-						{"pn": "", "description": "CMOS camera sensor"}
+						{"pn": "Onsxxxx", "description": "CMOS camera sensor"}
 					]
 				},
 				{
