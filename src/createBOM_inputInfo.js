@@ -106,11 +106,7 @@ var styles = StyleSheet.create({
  		fontWeight: 'bold',
  	},
  	infoInput: {
- 		height: 40, 
- 		// width: 200,
-	    // borderColor: 'black', 
-	    // backgroundColor: 'green',
-	    borderWidth: 2
+ 		height: 40
  	},
     direct: {
 		flex: 1,

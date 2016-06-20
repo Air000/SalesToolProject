@@ -12,6 +12,7 @@
     "react-native-button": "^1.6.0",
     "react-native-collapsible": "^0.6.0",
     "react-native-fs": "^1.5.1",
-    "react-native-scrollable-tab-view": "^0.4.4"
+    "react-native-scrollable-tab-view": "^0.4.4",
+    "react-native-simple-radio-button": "^2.1.0"
   }
 }
