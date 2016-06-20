@@ -9,8 +9,8 @@ import {
   ToastAndroid
 } from 'react-native';
 import customInfo from './customInfo';
-import vendorsInfo from './vendorsInfo';
-import createBOM from './createBOM';
+import chipsPage from './chipsPage';
+import createBOM from './createBOM_inputInfo';
 
 class Index extends React.Component {
   _back() {
@@ -24,13 +24,13 @@ class Index extends React.Component {
   }
   _openVendorInfo() {
     this.props.navigator.push({
-      title: 'Vendors Info',
-      component: vendorsInfo
+      title: 'Products',
+      component: chipsPage
     })
   }
   _openCreateBOM() {
     this.props.navigator.push({
-      title: 'Create BOM',
+      title: 'Create BOM(input info)',
       component: createBOM
     })
   }
@@ -51,7 +51,7 @@ class Index extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={this._openVendorInfo.bind(this)} >
               <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />
-              <Text style={styles.button_text} >Vendors Info</Text>
+              <Text style={styles.button_text} >Products</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={this._openCreateBOM.bind(this)} >
               <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />

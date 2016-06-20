@@ -84,7 +84,7 @@
                         "description":"DDR3 RAM"
                     },
                     {
-                        "pn":"",
+                        "pn":"MTxxxxx",
                         "description":"EMMC"
                     }
                 ]
@@ -93,7 +93,7 @@
                 "brand":"ISSI",
                 "chips":[
                     {
-                        "pn":"",
+                        "pn":"ISSIxxx",
                         "description":"DDR3 RAM"
                     }
                 ]
@@ -217,7 +217,7 @@
                 "brand":"NXP",
                 "chips":[
                     {
-                        "pn":"",
+                        "pn":"NXPxxxx",
                         "description":"Tire Pressure sensor"
                     }
                 ]
@@ -239,7 +239,7 @@
                 "brand":"Onsemi",
                 "chips":[
                     {
-                        "pn":"",
+                        "pn":"Onsxxxx",
                         "description":"CMOS camera sensor"
                     }
                 ]

@@ -12,17 +12,15 @@ import Collapsible from 'react-native-collapsible';
 import chipDetailPage from './chipDetailPage';
 
 var ChipsDB = require('../data/productsOfVendor').allProducts;
-var ChipsForTest = require('../data/products').allProducts;
+var OriginChipsDB = require('../data/products').allProducts;
 var ChipsByCategories = require('../data/productsOfCategory');
 
 var genProductsByCate = function(cate) {
 	var products = [];
-	ChipsForTest.forEach(function(item){
-		console.log(item.products);
+	OriginChipsDB.forEach(function(item){
 		var chips = item.products.filter(function(i){
 				return i.category==cate
 			})[0].chips;
-		console.log("chips:", JSON.stringify(chips));
 
 		if(chips.length>0){
 			products.push({
@@ -38,12 +36,10 @@ var genProductsByCate = function(cate) {
 
 var genCategoriesList = function() {
 	var categories = [];
-	ChipsForTest[0].products.forEach(function(item) {
+	OriginChipsDB[0].products.forEach(function(item) {
 		categories.push(item.category);
 	});
-	console.log(categories);
 	return categories.map(function(category) {
-		console.log("category:", category);
 		var products = genProductsByCate(category);
 		return {
 			category: category,
@@ -51,7 +47,7 @@ var genCategoriesList = function() {
 		}
 	})
 }
-// genCategoriesList();
+// var ChipsByCategories=genCategoriesList();
 // console.log(JSON.stringify(genCategoriesList()));
 
 class ChipsList extends React.Component {
@@ -147,7 +143,7 @@ class CollapsibleList extends React.Component {
 	}
 }
 
-class vendorsInfo extends React.Component {
+class ChipsPage extends React.Component {
 	constructor(props, context) {
 		super(props,context);
 		this.state = {
@@ -232,4 +228,4 @@ const styles = StyleSheet.create({
 		backgroundColor: '#7fb0dd'
 	}
 });
-export default vendorsInfo;
+export default ChipsPage;
