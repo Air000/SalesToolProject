@@ -27,7 +27,7 @@ class CheckboxForm extends React.Component {
         this.setState({
             selected: !this.state.selected
         });
-        ToastAndroid.show(this.props.pn+' selected', ToastAndroid.SHORT);
+        this.props.onChipSelectHandler(this.props.pn, !this.state.selected);
     }
 
     render() {
@@ -68,7 +68,7 @@ class ChipsList extends React.Component {
 	_renderCheckBoxForm(pn) {
 		if(this.props.showCheckBoxForm){
 			return (
-				<CheckboxForm pn={pn}/>
+				<CheckboxForm pn={pn} onChipSelectHandler={this.props.onChipSelectHandler}/>
 			);
 		}else{
 			return;
@@ -114,7 +114,11 @@ class ProductsList extends React.Component {
 				<View style={{flex: 1, borderWidth: .3, borderColor:'#6b6b6b'}}>
 					<Text style={{fontSize: 15, fontWeight: 'bold', textAlign:'center'}}>{this.props.sortedBy=="brand"?rowData.category:rowData.brand}</Text>
 				</View>
-				<ChipsList chips={rowData.chips} navigator={this.props.navigator} showCheckBoxForm={this.props.showCheckBoxForm} />
+				<ChipsList 
+					chips={rowData.chips} 
+					navigator={this.props.navigator} 
+					showCheckBoxForm={this.props.showCheckBoxForm} 
+					onChipSelectHandler={this.props.onChipSelectHandler}/>
 			</View>
 			
 		)
@@ -156,7 +160,8 @@ class CollapsibleList extends React.Component {
 						sortedBy={this.state.sortedBy} 
 						products={this.state.sortedProducts.products} 
 						navigator={this.props.navigator} 
-						showCheckBoxForm={this.props.showCheckBoxForm} />
+						showCheckBoxForm={this.props.showCheckBoxForm} 
+						onChipSelectHandler={this.props.onChipSelectHandler} />
 				</Collapsible>
 			</View>
 		)
@@ -178,6 +183,7 @@ const styles = StyleSheet.create({
 	header: {
 		backgroundColor: '#F5FCFF',
 		padding: 10,
+		borderRadius: 10
 	},
 	headerText: {
 		textAlign: 'center',

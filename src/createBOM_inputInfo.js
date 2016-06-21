@@ -12,6 +12,7 @@ import createBOM_selectChips from './createBOM_selectChips';
 
 var vendorList = require('../data/vendorList');
 var PickerItem = Picker.Item;
+var RNFS=require('react-native-fs');
 
 class createBOM_inputInfo extends React.Component {
 	constructor(props, context) {
@@ -92,8 +93,7 @@ var styles = StyleSheet.create({
  	parent: {
  		flex: 1, 
  		alignItems: 'center', 
- 		padding: 16,
- 		backgroundColor: '#FFFFFF' 
+ 		padding: 16
  	},	
  	infoView: {
  		margin: 10,
