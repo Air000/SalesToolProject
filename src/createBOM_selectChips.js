@@ -4,16 +4,38 @@ import {
 	View,
 	Text,
 	StyleSheet,
+	ScrollView,
 	TouchableOpacity
 } from 'react-native';
 
+
+import chipDetailPage from './chipDetailPage';
+import CollapsibleList from './collapsibleList';
+
+var ChipsByCategories = require('../data/productsOfCategory');
+
 class createBOM_selectChips extends React.Component {
+	constructor(props, context) {
+	    super(props, context);
+	    var self=this;
+		this.state={
+			sortByCategoriesView: ChipsByCategories.map(function(categoryAndProducts,i){
+		 		return(
+		 			<CollapsibleList key={i} id={i} 
+			 			sortedProducts={categoryAndProducts} 
+			 			sortedBy={"category"} 
+			 			navigator={self.props.navigator} 
+			 			showCheckBoxForm={true}/>
+		 		)
+		 	})
+		}
+	}
 	_back() {
 		this.props.navigator.pop();
 	}
 	render() {
 		return (
-			<View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+			<View style={{ backgroundColor: '#FFFFFF' }}>
 				<View style={styles.head}>
 					<View style={styles.descContainer}>
 						<Text  style={styles.lable}>Segment: </Text>
@@ -33,16 +55,11 @@ class createBOM_selectChips extends React.Component {
 					</View>
 				</View>
 				<View>
-					<Text>Select Chips</Text>
+					<Text style={{textAlign: 'center', fontWeight: 'bold', color: '#7fb0dd', fontSize: 18}}>Select Chips from Categories</Text>
+					<ScrollView style={{height: 400}}>	
+					 	{this.state.sortByCategoriesView}     	
+					</ScrollView>
 				</View>
-				<Text>Welcome to Navigation! {this.props.platform}</Text>
-				<TextInput
-					onChangeText={age => this.props.changeMyAge(age) }
-					placeholder={'Enter your age:'}
-					style={{ height: 40, width: 200 }} />
-				<TouchableOpacity onPress={this._back.bind(this)}>
-					<Text style={{ color: '#55ACEE' }}>Save my age</Text>
-				</TouchableOpacity>
 			</View>
 		);
 	}

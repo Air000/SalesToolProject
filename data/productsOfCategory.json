@@ -13,14 +13,6 @@
                     {
                         "pn":"TIS_mcu2",
                         "description":""
-                    },
-                    {
-                        "pn":"TIS_mcu3",
-                        "description":""
-                    },
-                    {
-                        "pn":"TIS_mcu4",
-                        "description":""
                     }
                 ]
             },
@@ -60,18 +52,6 @@
                     },
                     {
                         "pn":"TIS_memory1",
-                        "description":""
-                    },
-                    {
-                        "pn":"TIS_memory2",
-                        "description":""
-                    },
-                    {
-                        "pn":"TIS_memory3",
-                        "description":""
-                    },
-                    {
-                        "pn":"TIS_memory4",
                         "description":""
                     }
                 ]
@@ -133,14 +113,6 @@
                     },
                     {
                         "pn":"TPSxxxx2",
-                        "description":""
-                    },
-                    {
-                        "pn":"TPSxxxx3",
-                        "description":""
-                    },
-                    {
-                        "pn":"TPSxxxx4",
                         "description":""
                     }
                 ]

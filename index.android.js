@@ -103,9 +103,10 @@ class navigation extends Component {
     return (
       <Navigator
         initialRoute={defaultRoute}
-        configureScene={(route) => {
-                return Navigator.SceneConfigs.FloatFromBottom;
-              }}
+        configureScene={() => ({
+          ...Navigator.SceneConfigs.FloatFromBottom,
+          gestures: {}, // or null
+        })}
         renderScene={this._renderScene}
         sceneStyle={{paddingTop: (Platform.OS === 'android' ? 66 : 74)}}
         navigationBar={this._renderNavBar()} />

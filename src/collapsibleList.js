@@ -5,12 +5,48 @@ import {
 	View,
 	ScrollView,
 	TouchableOpacity,
-	StyleSheet
+	StyleSheet,
+	ToastAndroid
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import chipDetailPage from './chipDetailPage';
-import Radio, {RadioButton} from 'react-native-simple-radio-button';
+import { CheckboxField, Checkbox } from 'react-native-checkbox-field';
 
+class CheckboxForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selected: false
+        };
+
+        this.selectCheckbox = this.selectCheckbox.bind(this);
+    }
+
+    selectCheckbox() {
+        this.setState({
+            selected: !this.state.selected
+        });
+        ToastAndroid.show(this.props.pn+' selected', ToastAndroid.SHORT);
+    }
+
+    render() {
+        const defaultColor = '#fff';
+
+        // Only onSelect prop is required
+        return (
+            <CheckboxField
+                onSelect={this.selectCheckbox}
+                selected={this.state.selected}
+                defaultColor={defaultColor}
+                selectedColor='#247fd2'
+                containerStyle={styles.containerStyle}
+                labelStyle={styles.labelStyle}
+                checkboxStyle={styles.checkboxStyle}>
+            </CheckboxField>
+        )
+    }
+}
 class ChipsList extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
@@ -20,6 +56,7 @@ class ChipsList extends React.Component {
 	    };
 	}
 	_onOpenChipDetail(r) {
+		// ToastAndroid.show('chips.length:'+this.props.chips.length, ToastAndroid.SHORT);
 		this.props.navigator.push({
 			title: r.pn,
 			component: chipDetailPage,
@@ -28,18 +65,33 @@ class ChipsList extends React.Component {
 			}
 	    })
 	}
+	_renderCheckBoxForm(pn) {
+		if(this.props.showCheckBoxForm){
+			return (
+				<CheckboxForm pn={pn}/>
+			);
+		}else{
+			return;
+		}
+	}
 	render() {
 		return (
 			<ListView style={{flex: 3}}
 				enableEmptySections={true}
+				initialListSize = {this.props.chips.length}
+				pageSize={this.props.chips.length}
 				dataSource={this.state.dataSource} 
 				renderRow={(rowData) => {
 					return (
-						<TouchableOpacity
-        					onPress={()=>this._onOpenChipDetail(rowData)}
-        					style={{borderWidth: .3, borderColor:'#6b6b6b'}}>
-							<Text style={{fontSize: 15, textAlign:'center'}}>{rowData.pn}</Text>
-						</TouchableOpacity>)
+						<View style={{ flex: 1, flexDirection: 'row', borderWidth: .3, borderColor:'#6b6b6b'}}>
+					        <TouchableOpacity
+	        					onPress={()=>this._onOpenChipDetail(rowData)}
+	        					style={{flex: 1}}>
+								<Text style={{fontSize: 15, textAlign:'center'}}>{rowData.pn}</Text>
+							</TouchableOpacity>
+							{this._renderCheckBoxForm(rowData.pn)}
+					      </View>
+						)
 						
 					}
 				} />		
@@ -62,7 +114,7 @@ class ProductsList extends React.Component {
 				<View style={{flex: 1, borderWidth: .3, borderColor:'#6b6b6b'}}>
 					<Text style={{fontSize: 15, fontWeight: 'bold', textAlign:'center'}}>{this.props.sortedBy=="brand"?rowData.category:rowData.brand}</Text>
 				</View>
-				<ChipsList chips={rowData.chips} navigator={this.props.navigator} />
+				<ChipsList chips={rowData.chips} navigator={this.props.navigator} showCheckBoxForm={this.props.showCheckBoxForm} />
 			</View>
 			
 		)
@@ -70,6 +122,8 @@ class ProductsList extends React.Component {
 	render() {
 		return (
 			<ListView enableEmptySections={true}
+			initialListSize = {this.props.products.length}
+			pageSize={this.props.products.length}
 			dataSource={this.state.dataSource} 
 			renderRow={this._renderProductsRow} />
 		)
@@ -97,7 +151,12 @@ class CollapsibleList extends React.Component {
 					<Text style={styles.headerText}>{this.state.sortedBy=="brand"?this.state.sortedProducts.brand:this.state.sortedProducts.category}</Text>
 				</TouchableOpacity>
 				<Collapsible collapsed={this.state.collapsed} align="center">
-					<ProductsList style={styles.content} sortedBy={this.state.sortedBy} products={this.state.sortedProducts.products} navigator={this.props.navigator} />
+					<ProductsList 
+						style={styles.content} 
+						sortedBy={this.state.sortedBy} 
+						products={this.state.sortedProducts.products} 
+						navigator={this.props.navigator} 
+						showCheckBoxForm={this.props.showCheckBoxForm} />
 				</Collapsible>
 			</View>
 		)
@@ -139,7 +198,22 @@ const styles = StyleSheet.create({
 	},
 	evenVendorRow: {
 		backgroundColor: '#7fb0dd'
-	}
+	},
+
+	containerStyle: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    labelStyle: {
+        flex: 1
+    },
+    checkboxStyle: {
+        width: 23,
+        height: 23,
+        borderWidth: 2,
+        borderColor: '#ddd',
+        borderRadius: 10
+    }
 });
 
 export default CollapsibleList;
