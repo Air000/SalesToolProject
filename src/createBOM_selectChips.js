@@ -120,9 +120,9 @@ class createBOM_selectChips extends React.Component {
 		};
 
 		var fileName = bom.segment+'_'+bom.application+'_'+bom.platform+'.json';
-
+		var self = this;
 		writeBOMtoFile(bom, fileName, function(){
-			this._openBomPage(fileName);
+			self._openBomPage(fileName);
 		});
 		// readBOMfromFile(fileTitle);
 		
