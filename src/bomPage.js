@@ -9,12 +9,13 @@ import {
 
 var RNFS=require('react-native-fs');
 
-function readBOMfromFile(fileName) {
+function readBOMfromFile(fileName, callback) {
   var path = RNFS.DocumentDirectoryPath + fileName;
   RNFS.readFile(path, 'utf8')
     .then((contents) => {
       
-      return contents;
+      callback(contents);
+      // return contents;
     })
     .catch((err) => {
       ToastAndroid.show("write error", ToastAndroid.SHORT);
@@ -30,11 +31,14 @@ export default class bomPage extends Component {
   }
   componentDidMount() {
     
-    var contents=readBOMfromFile(this.props.fileName);
-    ToastAndroid.show(contents, ToastAndroid.LONG);
-    this.setState({
-      bomContents: contents
-    })
+    readBOMfromFile(this.props.fileName, function(contents){
+      ToastAndroid.show(contents, ToastAndroid.LONG);
+        this.setState({
+        bomContents: contents
+      })
+    });
+    
+    
   }
   render() {
     return (

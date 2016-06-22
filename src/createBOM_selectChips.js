@@ -19,11 +19,13 @@ var Button = require('react-native-button');
 var ChipsByCategories = require('../data/productsOfCategory');
 var RNFS=require('react-native-fs');
 
-function writeBOMtoFile(bom, fileName){
-	var path = RNFS.DocumentDirectoryPath + fileName;
+function writeBOMtoFile(bom, fileName, callback){
+	var path = RNFS.DocumentDirectoryPath +'/'+fileName;
+	ToastAndroid.show(path, ToastAndroid.LONG);
 	RNFS.writeFile(path, JSON.stringify(bom), 'utf8')
     .then((success) => {
-      ToastAndroid.show("write success", ToastAndroid.SHORT);
+    	callback();
+    	ToastAndroid.show("write success", ToastAndroid.SHORT);
     })
     .catch((err) => {
       ToastAndroid.show("write error", ToastAndroid.SHORT);
@@ -37,7 +39,7 @@ function readBOMfromFile(fileName) {
       return contents;
     })
     .catch((err) => {
-      ToastAndroid.show("write error", ToastAndroid.SHORT);
+      ToastAndroid.show("read error", ToastAndroid.SHORT);
     });
 }
 class createBOM_selectChips extends React.Component {
@@ -119,9 +121,11 @@ class createBOM_selectChips extends React.Component {
 
 		var fileName = bom.segment+'_'+bom.application+'_'+bom.platform+'.json';
 
-		writeBOMtoFile(bom, fileName);
+		writeBOMtoFile(bom, fileName, function(){
+			this._openBomPage(fileName);
+		});
 		// readBOMfromFile(fileTitle);
-		this._openBomPage(fileName);
+		
 
 
 	}

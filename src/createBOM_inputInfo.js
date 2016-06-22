@@ -17,10 +17,10 @@ class createBOM_inputInfo extends React.Component {
 	constructor(props, context) {
 	    super(props, context);
 		this.state = {
-	      segment: "",
-	      application: "",
+	      segment: "a",
+	      application: "b",
 	      platformsList: vendorList,
-	      platform: "",
+	      platform: "c",
 	      productCategories: "",
 	    };
 	}
