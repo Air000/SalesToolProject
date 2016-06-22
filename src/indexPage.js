@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ToastAndroid
 } from 'react-native';
-import customInfo from './customInfo';
+import bomsList from './bomsInfo';
 import chipsPage from './chipsPage';
 import createBOM from './createBOM_inputInfo';
 
@@ -16,10 +16,10 @@ class Index extends React.Component {
   _back() {
     this.props.navigator.pop();
   }
-  _openCustomInfo() {
+  _openBomList() {
     this.props.navigator.push({
-      title: 'Customers Info',
-      component: customInfo
+      title: 'BOMs List',
+      component: bomsList
     })
   }
   _openVendorInfo() {
@@ -45,10 +45,6 @@ class Index extends React.Component {
         </View>
         <View style={{flex: 5}} >
           <View style={styles.buttons_view} >
-            <TouchableOpacity onPress={this._openCustomInfo.bind(this)} >
-              <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />
-              <Text style={styles.button_text} >Customers Info</Text>
-            </TouchableOpacity>
             <TouchableOpacity onPress={this._openVendorInfo.bind(this)} >
               <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />
               <Text style={styles.button_text} >Products</Text>
@@ -56,6 +52,10 @@ class Index extends React.Component {
             <TouchableOpacity onPress={this._openCreateBOM.bind(this)} >
               <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />
               <Text style={styles.button_text} >Create BOM</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._openBomList.bind(this)} >
+              <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />
+              <Text style={styles.button_text} >Bom List</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttons_view} >

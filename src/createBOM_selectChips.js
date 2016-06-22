@@ -13,6 +13,7 @@ import {
 import ProgressBar from 'ProgressBarAndroid';
 import chipDetailPage from './chipDetailPage';
 import CollapsibleList from './collapsibleList';
+import bomPage from './bomPage';
 
 var Button = require('react-native-button');
 var ChipsByCategories = require('../data/productsOfCategory');
@@ -98,8 +99,16 @@ class createBOM_selectChips extends React.Component {
 			</View> 
 		); 
 	}
+	_openBomPage(fileName){
+		this.props.navigator.push({
+	      title: 'BOM',
+	      component: bomPage,
+	      params: {
+	      	fileName: fileName
+	      }
+	    })
+	}
 	_saveButtonPress() {
-		ToastAndroid.show("_saveButtonPress", ToastAndroid.SHORT);
 		var bom = {
 			segment: this.props.segment,
 			application: this.props.application,
@@ -108,8 +117,12 @@ class createBOM_selectChips extends React.Component {
 			chips: this.state.selectedChips 
 		};
 
-		writeBOMtoFile(bom, 'bom1.txt');
-		readBOMfromFile('bom1.txt');
+		var fileName = bom.segment+'_'+bom.application+'_'+bom.platform+'.json';
+
+		writeBOMtoFile(bom, fileName);
+		// readBOMfromFile(fileTitle);
+		this._openBomPage(fileName);
+
 
 	}
 	render() {
