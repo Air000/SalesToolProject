@@ -3,6 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
+  ScollView,
+  ListView,
   TouchableHighlight,
   ToastAndroid
 } from 'react-native';
@@ -19,34 +21,149 @@ function readBOMfromFile(fileName, callback) {
       // return contents;
     })
     .catch((err) => {
-      ToastAndroid.show("read error:"+err, ToastAndroid.SHORT);
+      console.log("read error:"+err);
     });
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//following function will parse selected chips array to format (sorted by pn):
+//[
+//     {pn1: {category:'', brand:'', description:''}},
+//     {pn2: {category:'', brand:'', description:''}},
+//     {pn2: {category:'', brand:'', description:''}}
+// ]
+///////////////////////////////////////////////////////////////////////////////
+function parseSelectedChipsDetail(selectedPns){
+  var chipsDetail={};
+    selectedPns.chips.forEach(function(selectedChip){
+      var chipInfo = {};
+      var isChipFound = false;
+      for(var i=0; i<ChipsDBByCategories.length; i++){
+        var products = ChipsDBByCategories[i].products;
+        for(var j=0; j<products.length; j++) {
+          var chips = products[j].chips;
+          var findedChip = chips.filter(function(chip){
+            return chip.pn == selectedChip;
+          });
+          if(findedChip.length>0){
+            isChipFound = true;
+            // chipInfo[selectedChip]={
+            chipsDetail[selectedChip]={
+              category: ChipsDBByCategories[i].category,
+              brand: products[j].brand,
+              description: findedChip[0].description
+            }
+
+            break; 
+          }
+        }
+        if(isChipFound) break;
+      }
+      // chipsDetail.push(chipInfo);
+    })
+  return chipsDetail;  
+}
+
+function selectedChipsSortedByCategories(sortedByPn, pns){
+  var sortedByCategories={};
+  var categories = [];
+  for(var pn in sortedByPn) {
+    // console.log('aa', pn, sortedByPn[pn]);
+    if(categories.indexOf(sortedByPn[pn].category)<0)
+      categories.push(sortedByPn[pn].category);
+  }
+  // console.log(categories);
+  categories.forEach(function(cate){
+    var chipsOfCategory = [];
+    pns.forEach(function(pn){
+      if(sortedByPn[pn].category==cate)
+        chipsOfCategory.push({
+          pn: pn,
+          brand: sortedByPn[pn].brand,
+          description: sortedByPn[pn].description
+        })
+    });
+    sortedByCategories[cate]=chipsOfCategory;
+  })
+  console.log('sortedByCategories:', sortedByCategories, 'categories:', categories);
+  return {sortedByCategories, categories};
 }
 
 export default class bomPage extends Component {
   constructor(props) {
     super(props);
+    var ds = new ListView.DataSource({
+      sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+
     this.state={
       segment: '',
       application: '',
       platform: '',
       productCategories: '',
-      chipsSelected: []
+      chipsSelected: {},
+      dataSource: ds.cloneWithRowsAndSections({}, [])
     }
+
   }
   componentDidMount() {
+    var ds = new ListView.DataSource({
+      sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
     var self = this;
     readBOMfromFile(this.props.fileName, function(contents){
       var bom = JSON.parse(contents);
 
+      // var bomDetail=parseSelectedChipsDetail(bom);
+      // var bomByCategories = selectedChipsSortedByCategories(bomDetail, bom.chips);
+      
+      var {sortedByCategories, categories} = selectedChipsSortedByCategories(parseSelectedChipsDetail(bom), bom.chips);
+      console.log(selectedChipsSortedByCategories(parseSelectedChipsDetail(bom), bom.chips));
       self.setState({
         segment: bom.segment,
         application: bom.application,
         platform: bom.platform,
         productCategories: bom.productCategories,
-        chipsSelected: bom.chips
+        // chipsSelected: bomByCategories,
+        dataSource: ds.cloneWithRowsAndSections(sortedByCategories, categories)
       })
     });
+  }
+  renderSectionHeader(data, sectionId) {
+    var text;
+    return (
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionHeaderText}>{sectionId}</Text>
+        <View style={styles.sectionHeaderIndicators}>
+          <View style={[{flex: 1}, styles.sectionHeaderIndicator]}>
+            <Text style={styles.sectionHeaderIndicatorText}>Brand</Text>
+          </View>
+          <View style={[{flex: 2}, styles.sectionHeaderIndicator]}>
+            <Text style={styles.sectionHeaderIndicatorText}>Suggested PN</Text>
+          </View>
+          <View style={[{flex: 3}, styles.sectionHeaderIndicator]}>
+            <Text style={styles.sectionHeaderIndicatorText}>Description</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+  renderRow(rowData) {
+    return (
+      <View style={styles.wrapper}>
+        <View style={[{flex: 1}, styles.rowView]}>
+          <Text style={styles.text}>{rowData.brand}</Text>
+        </View>
+        <View style={[{flex: 2}, styles.rowView]}>
+          <Text style={styles.text}>{rowData.pn}</Text>
+        </View>
+        <View style={[{flex: 3}, styles.rowView]}>
+          <Text style={styles.text}>{rowData.description}</Text>
+        </View>
+      </View>
+    )
   }
   render() {
     return (
@@ -69,6 +186,12 @@ export default class bomPage extends Component {
             <Text>{this.state.productCategories}</Text>
           </View>
         </View>
+        <ListView
+          ref="listView"
+          automaticallyAdjustContentInsets={false}
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+          renderSectionHeader={this.renderSectionHeader}/>
       </View>
     );
   }
@@ -76,9 +199,45 @@ export default class bomPage extends Component {
 
   var styles = StyleSheet.create({
     head: {
-      flex: 3,
       borderTopColor: 'black',
       borderTopWidth: 1
+    },
+    wrapper: {
+      flex: 1,
+      flexDirection: 'row',
+    },
+    rowView: {
+      borderWidth: .3, 
+      borderColor:'#6b6b6b'
+    },
+    text: {
+      fontSize: 15,
+      color: 'black',
+      textAlign: 'center',
+    },
+    sectionHeader: {
+      backgroundColor: '#d29c1b'
+    },
+    sectionHeaderText: {
+      textAlign: 'center',
+      fontFamily: 'AvenirNext-Medium',
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: 'white',
+      paddingLeft: 10
+    },
+    sectionHeaderIndicators: {
+      flex: 1,
+      flexDirection: 'row'
+    },
+    sectionHeaderIndicator: {
+      borderWidth: .3, 
+      borderColor:'#6b6b6b'
+    },
+    sectionHeaderIndicatorText: {
+      fontSize: 15,
+      fontWeight: 'bold',
+      textAlign: 'center',
     },
     descContainer: {
       flexDirection: 'row',

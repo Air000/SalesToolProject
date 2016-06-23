@@ -21,26 +21,39 @@ var RNFS=require('react-native-fs');
 
 function writeBOMtoFile(bom, fileName, callback){
 	var path = RNFS.DocumentDirectoryPath +'/'+fileName;
-	ToastAndroid.show(path, ToastAndroid.LONG);
+	// ToastAndroid.show(path, ToastAndroid.LONG);
 	RNFS.writeFile(path, JSON.stringify(bom), 'utf8')
     .then((success) => {
     	callback();
-    	ToastAndroid.show("write success", ToastAndroid.SHORT);
+    	// ToastAndroid.show("write success", ToastAndroid.SHORT);
     })
     .catch((err) => {
-      ToastAndroid.show("write error", ToastAndroid.SHORT);
+      console.log("write error:"+ err);
     });  
 }
 function readBOMfromFile(fileName) {
-	var path = RNFS.DocumentDirectoryPath + fileName;
+	var path = RNFS.DocumentDirectoryPath +'/'+ fileName;
 	RNFS.readFile(path, 'utf8')
     .then((contents) => {
-      ToastAndroid.show(contents, ToastAndroid.SHORT);
+      // ToastAndroid.show(contents, ToastAndroid.SHORT);
       return contents;
     })
     .catch((err) => {
       ToastAndroid.show("read error", ToastAndroid.SHORT);
     });
+}
+function deleteFile(fileName){
+	var path = RNFS.DocumentDirectoryPath +'/'+ fileName;
+
+	return RNFS.unlink(path)
+
+	  .spread((success, path) => {
+	  	// ToastAndroid.show("FILE DELETED:"+success+path, ToastAndroid.SHORT);
+	  })
+	  // `unlink` will throw an error, if the item to unlink does not exist
+	  .catch((err) => {
+	    ToastAndroid.show("delete error:"+err, ToastAndroid.LONG);
+	  });
 }
 class createBOM_selectChips extends React.Component {
 	constructor(props, context) {
@@ -74,7 +87,7 @@ class createBOM_selectChips extends React.Component {
 				});
 			}
 		}
-		ToastAndroid.show(this.state.selectedChips.toString(), ToastAndroid.SHORT);
+		// ToastAndroid.show(this.state.selectedChips.toString(), ToastAndroid.SHORT);
 	}
 	_renderSortByCategoriesView() {
 		var self=this;
@@ -121,13 +134,10 @@ class createBOM_selectChips extends React.Component {
 
 		var fileName = bom.segment+'_'+bom.application+'_'+bom.platform+'.json';
 		var self = this;
+		deleteFile(fileName);
 		writeBOMtoFile(bom, fileName, function(){
 			self._openBomPage(fileName);
 		});
-		// readBOMfromFile(fileTitle);
-		
-
-
 	}
 	render() {
 		if(this.state.renderPlaceholderOnly){return this._renderPlaceholderView();}
