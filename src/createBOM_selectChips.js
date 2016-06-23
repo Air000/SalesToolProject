@@ -6,7 +6,6 @@ import {
 	StyleSheet,
 	ScrollView,
 	TouchableOpacity,
-	ToastAndroid,
 	InteractionManager
 } from 'react-native';
 
@@ -19,40 +18,53 @@ var Button = require('react-native-button');
 var ChipsByCategories = require('../data/productsOfCategory');
 var RNFS=require('react-native-fs');
 
+var BOM_PATH = RNFS.DocumentDirectoryPath +'/'+'boms';
+
+createBomPath();
+function createBomPath(){
+	RNFS.exists(BOM_PATH)
+	.then((isExists)=>{
+		console.log('isExists', isExists);
+		if(!isExists){
+			return RNFS.mkdir(BOM_PATH)
+		}
+		return
+	})
+	.catch((err)=>{
+		console.log('mkdir err: '+err);
+	})
+}
 function writeBOMtoFile(bom, fileName, callback){
-	var path = RNFS.DocumentDirectoryPath +'/'+fileName;
-	// ToastAndroid.show(path, ToastAndroid.LONG);
+	var path = BOM_PATH +'/'+fileName;
 	RNFS.writeFile(path, JSON.stringify(bom), 'utf8')
     .then((success) => {
     	callback();
-    	// ToastAndroid.show("write success", ToastAndroid.SHORT);
     })
     .catch((err) => {
       console.log("write error:"+ err);
     });  
 }
 function readBOMfromFile(fileName) {
-	var path = RNFS.DocumentDirectoryPath +'/'+ fileName;
+	var path = BOM_PATH +'/'+ fileName;
 	RNFS.readFile(path, 'utf8')
     .then((contents) => {
-      // ToastAndroid.show(contents, ToastAndroid.SHORT);
       return contents;
     })
     .catch((err) => {
-      ToastAndroid.show("read error", ToastAndroid.SHORT);
+      console.log("read error: "+err);
     });
 }
 function deleteFile(fileName){
-	var path = RNFS.DocumentDirectoryPath +'/'+ fileName;
+	var path = BOM_PATH +'/'+ fileName;
 
 	return RNFS.unlink(path)
 
 	  .spread((success, path) => {
-	  	// ToastAndroid.show("FILE DELETED:"+success+path, ToastAndroid.SHORT);
+	  	console.log("FILE DELETED:"+success+path);
 	  })
 	  // `unlink` will throw an error, if the item to unlink does not exist
 	  .catch((err) => {
-	    ToastAndroid.show("delete error:"+err, ToastAndroid.LONG);
+	    console.log("delete error:"+err);
 	  });
 }
 class createBOM_selectChips extends React.Component {
@@ -87,7 +99,6 @@ class createBOM_selectChips extends React.Component {
 				});
 			}
 		}
-		// ToastAndroid.show(this.state.selectedChips.toString(), ToastAndroid.SHORT);
 	}
 	_renderSortByCategoriesView() {
 		var self=this;
@@ -132,7 +143,8 @@ class createBOM_selectChips extends React.Component {
 			chips: this.state.selectedChips 
 		};
 
-		var fileName = bom.segment+'_'+bom.application+'_'+bom.platform+'.json';
+		var fileName = bom.segment.replace(/ /g, '_')+'_'+bom.application.replace(/ /g, '_')+'_'+bom.platform+'.json';
+		console.log('fileName', fileName);
 		var self = this;
 		deleteFile(fileName);
 		writeBOMtoFile(bom, fileName, function(){

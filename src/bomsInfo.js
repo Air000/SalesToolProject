@@ -4,79 +4,81 @@ import {
   Text,
   View,
   ListView,
-  TouchableHighlight,
+  TouchableOpacity,
   ToastAndroid,
 } from 'react-native';
+import bomPage from './bomPage';
 
 var RNFS=require('react-native-fs');
-
-function testRNFS() {
-  console.log(RNFS.DocumentDirectoryPath);
-  // get a list of files and directories in the main bundle
-  RNFS.readDir(RNFS.MainBundlePath)
-    .then((result) => {
-      console.log('GOT RESULT', result);
-
-      // stat the first file
-      return Promise.all([RNFS.stat(result[0].path), result[0].path]);
+var BOM_PATH = RNFS.DocumentDirectoryPath +'/'+'boms';
+function getFilesList(callback){
+  RNFS.readdir(BOM_PATH)
+    .then((files) => {
+      console.log(files);
+      callback(files);
     })
-    .then((statResult) => {
-      if (statResult[0].isFile()) {
-        // if we have a file, read it
-        return RNFS.readFile(statResult[1], 'utf8');
+    .catch((err) => {
+      console.log('readdir error: '+err);
+    });
+}
+
+function readBOMfromFile(fileName, callback) {
+  var path = BOM_PATH+'/'+fileName;
+  RNFS.readFile(path, 'utf8')
+    .then((contents) => {
+      
+      callback(contents);
+    })
+    .catch((err) => {
+      console.log("read error:"+err);
+    });
+}
+
+export default class bomsInfo extends Component {
+  constructor(props) {
+    super(props);
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = { 
+      files: ds.cloneWithRows([])
+    };
+  }
+  componentDidMount() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var self=this;
+    getFilesList(function(files){
+      // var displayNames = files.map(function(fileStr){
+      //   return fileStr.split('.')[0].replace(/_/g,' ');
+      // });
+      self.setState({
+        files: ds.cloneWithRows(files)
+      })
+    })
+  }
+  _onOpenBomDetail(fileName){
+    this.props.navigator.push({
+      title: 'BOM',
+      component: bomPage,
+      params: {
+        fileName: fileName
       }
-
-      return 'no file';
     })
-    .then((contents) => {
-      // log the file contents
-      console.log('contents:', contents);
-    })
-    .catch((err) => {
-      console.log(err.message, err.code);
-    });
-
-   var path = RNFS.DocumentDirectoryPath + '/test.txt'; 
-  // write the file
-  RNFS.writeFile(path, 'Lorem ipsum dolor sit amet', 'utf8')
-    .then((success) => {
-      console.log(path);
-    })
-    .catch((err) => {
-      console.log('err2:',err.message);
-    });  
-  RNFS.readFile(path, 'utf8')
-    .then((contents) => {
-      console.log(contents, "=contents2");
-    })
-    .catch((err) => {
-      console.log('err', err);
-    });  
-}
-
-function getFilesList(){
-  RNFS.readDir(RNFS.DocumentDirectoryPath)
-    .then((result) => {
-      console.log(result);
-      ToastAndroid.show('GOT RESULT'+JSON.stringify(result) , ToastAndroid.SHORT);
-      // stat the first file
-      return result;
-    })
-    .catch((err) => {
-      ToastAndroid.show('readDir error', ToastAndroid.SHORT);
-    });
-}
-
-function readBOMfromFile(fileName) {
-  var path = RNFS.DocumentDirectoryPath + fileName;
-  RNFS.readFile(path, 'utf8')
-    .then((contents) => {
-      ToastAndroid.show(contents, ToastAndroid.SHORT);
-      return contents;
-    })
-    .catch((err) => {
-      ToastAndroid.show("write error", ToastAndroid.SHORT);
-    });
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+      <ListView 
+        enableEmptySections={true}
+        dataSource={this.state.files} 
+        renderRow={(file) => (
+          <TouchableOpacity
+            onPress={()=>this._onOpenBomDetail(file)}
+            style={{flex: 1}}>
+            <Text style={{fontSize: 15, textAlign:'center'}}>{file.split('.')[0].replace(/_/g,' ')}</Text>
+          </TouchableOpacity>
+          )} />
+      </View>
+    );
+  }
 }
 
 
@@ -113,30 +115,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(245,252,255,1)',
   },
 });
-
-export default class bomsInfo extends Component {
-  constructor(props) {
-    super(props);
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = { 
-      files: ds.cloneWithRows([])
-    };
-  }
-  componentDidMount() {
-    // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    // this.setState({
-    //   files: ds.cloneWithRows(getFilesList())
-    // });
-    getFilesList()
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <ListView 
-          enableEmptySections={true}
-          dataSource={this.state.files} 
-          renderRow={(rowData) => <Text>{rowData}</Text>} />
-      </View>
-    );
-  }
-}

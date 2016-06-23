@@ -5,26 +5,38 @@ import {
   View,
   ScollView,
   ListView,
-  TouchableHighlight,
+  TouchableOpacity,
   ToastAndroid
 } from 'react-native';
 
 var ChipsDBByCategories = require('../data/productsOfCategory');
 var RNFS=require('react-native-fs');
+var BOM_PATH = RNFS.DocumentDirectoryPath +'/'+'boms';
 
 function readBOMfromFile(fileName, callback) {
-  var path = RNFS.DocumentDirectoryPath+'/'+fileName;
+  var path = BOM_PATH+'/'+fileName;
   RNFS.readFile(path, 'utf8')
     .then((contents) => {
       
       callback(contents);
-      // return contents;
     })
     .catch((err) => {
       console.log("read error:"+err);
     });
 }
+function deleteFile(fileName){
+  var path = BOM_PATH +'/'+ fileName;
 
+  return RNFS.unlink(path)
+
+    .spread((success, path) => {
+      console.log("FILE DELETED:"+success+path);
+    })
+    // `unlink` will throw an error, if the item to unlink does not exist
+    .catch((err) => {
+      console.log("delete error:"+err);
+    });
+}
 ///////////////////////////////////////////////////////////////////////////////
 //following function will parse selected chips array to format (sorted by pn):
 //[
@@ -116,23 +128,18 @@ export default class bomPage extends Component {
     readBOMfromFile(this.props.fileName, function(contents){
       var bom = JSON.parse(contents);
 
-      // var bomDetail=parseSelectedChipsDetail(bom);
-      // var bomByCategories = selectedChipsSortedByCategories(bomDetail, bom.chips);
-      
       var {sortedByCategories, categories} = selectedChipsSortedByCategories(parseSelectedChipsDetail(bom), bom.chips);
-      console.log(selectedChipsSortedByCategories(parseSelectedChipsDetail(bom), bom.chips));
+      // console.log(selectedChipsSortedByCategories(parseSelectedChipsDetail(bom), bom.chips));
       self.setState({
         segment: bom.segment,
         application: bom.application,
         platform: bom.platform,
         productCategories: bom.productCategories,
-        // chipsSelected: bomByCategories,
         dataSource: ds.cloneWithRowsAndSections(sortedByCategories, categories)
       })
     });
   }
   renderSectionHeader(data, sectionId) {
-    var text;
     return (
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionHeaderText}>{sectionId}</Text>
@@ -165,6 +172,9 @@ export default class bomPage extends Component {
       </View>
     )
   }
+  _onDeleteBom(){
+    deleteFile(this.props.fileName);
+  }
   render() {
     return (
       <View style={{flex: 1}}>
@@ -192,6 +202,11 @@ export default class bomPage extends Component {
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
           renderSectionHeader={this.renderSectionHeader}/>
+        <TouchableOpacity
+          onPress={()=>this._onDeleteBom.bind(this)}
+          style={{flex: 1}}>
+          <Text style={{fontSize: 15, textAlign:'center'}}>Delete</Text>
+        </TouchableOpacity>
       </View>
     );
   }
