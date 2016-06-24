@@ -13,6 +13,7 @@ import ProgressBar from 'ProgressBarAndroid';
 import chipDetailPage from './chipDetailPage';
 import CollapsibleList from './collapsibleList';
 import bomPage from './bomPage';
+import bomsInfo from './bomsInfo';
 
 var Button = require('react-native-button');
 var ChipsByCategories = require('../data/productsOfCategory');
@@ -134,6 +135,12 @@ class createBOM_selectChips extends React.Component {
 	      }
 	    })
 	}
+	_openBomsInfoPage(){
+		this.props.navigator.push({
+	      title: 'BOMs List',
+	      component: bomsInfo
+	    })
+	}
 	_saveButtonPress() {
 		var bom = {
 			segment: this.props.segment,
@@ -148,7 +155,8 @@ class createBOM_selectChips extends React.Component {
 		var self = this;
 		deleteFile(fileName);
 		writeBOMtoFile(bom, fileName, function(){
-			self._openBomPage(fileName);
+			// self._openBomPage(fileName);
+			self._openBomsInfoPage();
 		});
 	}
 	render() {

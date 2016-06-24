@@ -33,10 +33,13 @@ class navigation extends Component {
         flex: 1, alignItems: 'center', justifyContent: 'center'
       },
       button: {
-        flex: 1, width: 50, alignItems: 'center', justifyContent: 'center'
+        flex: 2, width: 50, alignItems: 'center', justifyContent: 'center'
       },
       buttonText: {
-        fontSize: 18, color: '#FFFFFF', fontWeight: '400', fontWeight: 'bold'
+        fontSize: 18, color: '#FFFFFF', fontWeight: 'bold'
+      },
+      titleText: {
+        fontSize: 20, color: '#FFFFFF', fontWeight: 'bold'
       },
       icon: {
         marginTop: 3, marginBottom: 3, width: 65, height: 43
@@ -78,7 +81,7 @@ class navigation extends Component {
       Title(route, navigator, index, navState) {
         return (
           <View style={styles.title}>
-            <Text style={styles.buttonText}>{route.title ? route.title : 'Splash'}</Text>
+            <Text style={styles.titleText}>{route.title ? route.title : 'Splash'}</Text>
           </View>
         );
       }

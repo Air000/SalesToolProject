@@ -24,13 +24,14 @@ function readBOMfromFile(fileName, callback) {
       console.log("read error:"+err);
     });
 }
-function deleteFile(fileName){
+function deleteFile(fileName, callback){
   var path = BOM_PATH +'/'+ fileName;
 
   return RNFS.unlink(path)
 
     .spread((success, path) => {
       console.log("FILE DELETED:"+success+path);
+      callback();
     })
     // `unlink` will throw an error, if the item to unlink does not exist
     .catch((err) => {
@@ -173,7 +174,14 @@ export default class bomPage extends Component {
     )
   }
   _onDeleteBom(){
-    deleteFile(this.props.fileName);
+    console.log('_onDeleteBom:', this.props.fileName)
+    var self=this;
+    deleteFile(this.props.fileName, function(){
+      self.props.navigator.pop();
+      self.props._updateFileList();
+      
+    });
+    
   }
   render() {
     return (
@@ -203,9 +211,9 @@ export default class bomPage extends Component {
           renderRow={this.renderRow}
           renderSectionHeader={this.renderSectionHeader}/>
         <TouchableOpacity
-          onPress={()=>this._onDeleteBom.bind(this)}
-          style={{flex: 1}}>
-          <Text style={{fontSize: 15, textAlign:'center'}}>Delete</Text>
+          onPress={this._onDeleteBom.bind(this)} 
+          style={{backgroundColor: '#b80303', marginHorizontal: 10, borderRadius: 3}}>
+          <Text style={{fontSize: 18, fontWeight: '100', textAlign:'center'}}>Delete</Text>
         </TouchableOpacity>
       </View>
     );

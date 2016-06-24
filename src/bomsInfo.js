@@ -37,21 +37,30 @@ function readBOMfromFile(fileName, callback) {
 export default class bomsInfo extends Component {
   constructor(props) {
     super(props);
+    this._updateFileList=this._updateFileList.bind(this);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = { 
       files: ds.cloneWithRows([])
     };
   }
   componentDidMount() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this._updateFileList();
+  }
+  _updateFileList(){
+    // ToastAndroid.show('_updateFileList',ToastAndroid.SHORT);
     var self=this;
     getFilesList(function(files){
-      // var displayNames = files.map(function(fileStr){
-      //   return fileStr.split('.')[0].replace(/_/g,' ');
-      // });
       self.setState({
-        files: ds.cloneWithRows(files)
+        files: self.state.files.cloneWithRows(files)
       })
+    })
+  }
+  _deleteBom(fileName){
+    var index=this.state.files.indexOf(fileName);
+    this.state.files.splice(index, 1);
+    this.setState({
+      
+      files: this.state.files.cloneWithRows(this.state.files)
     })
   }
   _onOpenBomDetail(fileName){
@@ -59,7 +68,8 @@ export default class bomsInfo extends Component {
       title: 'BOM',
       component: bomPage,
       params: {
-        fileName: fileName
+        fileName: fileName,
+        _updateFileList: this._updateFileList
       }
     })
   }
@@ -67,13 +77,14 @@ export default class bomsInfo extends Component {
     return (
       <View style={styles.container}>
       <ListView 
+        style={{padding: 10, marginHorizontal: 20, marginVertical: 10}}
         enableEmptySections={true}
         dataSource={this.state.files} 
         renderRow={(file) => (
           <TouchableOpacity
             onPress={()=>this._onOpenBomDetail(file)}
-            style={{flex: 1}}>
-            <Text style={{fontSize: 15, textAlign:'center'}}>{file.split('.')[0].replace(/_/g,' ')}</Text>
+            style={{flex: 1, backgroundColor:'#c7effb',  borderRadius: 5, marginBottom: 5 }}>
+            <Text style={{fontSize: 20, fontWeight:'bold', textAlign:'center'}}>{file.split('.')[0].replace(/_/g,' ')}</Text>
           </TouchableOpacity>
           )} />
       </View>
