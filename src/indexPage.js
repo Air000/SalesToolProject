@@ -11,6 +11,7 @@ import {
 import bomsList from './bomsInfo';
 import chipsPage from './chipsPage';
 import createBOM from './createBOM_inputInfo';
+import blockDiagram from './blockDiagram';
 
 class Index extends React.Component {
   _back() {
@@ -32,6 +33,12 @@ class Index extends React.Component {
     this.props.navigator.push({
       title: 'Create BOM(input info)',
       component: createBOM
+    })
+  }
+  _openBlockDiagrame() {
+    this.props.navigator.push({
+      title: 'Block Diagrams',
+      component: blockDiagram
     })
   }
   _openMsg() {
@@ -59,9 +66,9 @@ class Index extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.buttons_view} >
-            <TouchableOpacity onPress={this._openMsg.bind(this)} >
+            <TouchableOpacity onPress={this._openBlockDiagrame.bind(this)} >
               <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />
-              <Text style={styles.button_text} >Other Tool</Text>
+              <Text style={styles.button_text} >Block Diagrams</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={this._openMsg.bind(this)} >
               <Image style={styles.button_img} source={require('../imgs/react_logo_small.png')} />
