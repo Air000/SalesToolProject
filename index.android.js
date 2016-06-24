@@ -33,10 +33,10 @@ class navigation extends Component {
         flex: 1, alignItems: 'center', justifyContent: 'center'
       },
       button: {
-        flex: 2, width: 50, alignItems: 'center', justifyContent: 'center'
+        flex: 1, alignItems: 'center', justifyContent: 'center'
       },
       buttonText: {
-        fontSize: 18, color: '#FFFFFF', fontWeight: 'bold'
+        fontSize: 17, color: '#FFFFFF', fontWeight: 'bold'
       },
       titleText: {
         fontSize: 20, color: '#FFFFFF', fontWeight: 'bold'
@@ -65,12 +65,12 @@ class navigation extends Component {
         }
       },
       RightButton(route, navigator, index, navState) {
-        if(index > 0 && route.rightButton) {
+        if(index > 0) {
           return (
             <TouchableOpacity 
-              onPress={() => navigator.pop()}
+              onPress={() => navigator.popToTop()}
               style={styles.button}>
-              <Text style={styles.buttonText}></Text>
+              <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
           );
         } else {

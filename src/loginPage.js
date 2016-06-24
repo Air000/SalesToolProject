@@ -54,7 +54,11 @@ class loginPage extends Component {
               >
                 Login
               </Button>
-            </View>  
+            </View> 
+            
+            <View>
+              <Text>{JSON.stringify(usersDB)}</Text>
+            </View> 
             <View style={styles.test}>
               <TouchableOpacity style={styles.right} onPress={this._openPage.bind(this)}> 
                 <Image style={styles.poke} source={require('../imgs/poke.png')} /> 

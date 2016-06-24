@@ -29,7 +29,7 @@ class createBOM_inputInfo extends React.Component {
 	}
 	_openPage() {
 		this.props.navigator.push({
-			title: 'Create BOM(select chips)',
+			title: 'Create BOM(select PN)',
 			component: createBOM_selectChips,
 			params: {
 				segment: this.state.segment,
