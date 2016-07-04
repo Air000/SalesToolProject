@@ -7,10 +7,12 @@ import {
   View,
   TouchableOpacity,
   Image,
-  ToastAndroid
+  ToastAndroid,
+  Platform
 } from 'react-native';
 import indexPage from './indexPage';
 
+import Toast from 'react-native-root-toast';
 var Button = require('react-native-button')
 var usersDB = require('../data/usersDB')
 
@@ -71,16 +73,38 @@ class loginPage extends Component {
   handleButtonPress(e) {
     if(this.state.username in usersDB) {
       if(usersDB[this.state.username]==this.state.password){
-        ToastAndroid.show('Login Success', ToastAndroid.SHORT)
+        if(Platform.OS === 'ios'){
+          Toast.show('Login Success', {
+            duration: Toast.durations.SHORT, 
+            position: Toast.positions.BOTTOM 
+          
+          });
+        }else
+          ToastAndroid.show('Login Success', ToastAndroid.SHORT)
+
         this.props.navigator.push({
           title: 'Index',
           component: indexPage
         })
       }else{
-        ToastAndroid.show('Password Incorrect', ToastAndroid.SHORT)
+        if(Platform.OS === 'ios'){
+          Toast.show('Password Incorrect', {
+            duration: Toast.durations.SHORT, 
+            position: Toast.positions.BOTTOM 
+          
+          });
+        }else
+          ToastAndroid.show('Password Incorrect', ToastAndroid.SHORT)
       }
     } else {
-      ToastAndroid.show('User Not Found', ToastAndroid.SHORT)
+      if(Platform.OS === 'ios'){
+        Toast.show('User Not Found', {
+          duration: Toast.durations.SHORT, 
+          position: Toast.positions.BOTTOM 
+        
+        });
+      }else
+        ToastAndroid.show('User Not Found', ToastAndroid.SHORT)
     }
   }
 };

@@ -25,7 +25,7 @@ createBomPath();
 function createBomPath(){
 	RNFS.exists(BOM_PATH)
 	.then((isExists)=>{
-		console.log('isExists', isExists);
+		// console.log('isExists', isExists);
 		if(!isExists){
 			return RNFS.mkdir(BOM_PATH)
 		}
