@@ -1,4 +1,4 @@
-rootProject.name = 'AwesomeProject'
+rootProject.name = 'SalesToolProject'
 
 include ':app'
 include ':react-native-fs'

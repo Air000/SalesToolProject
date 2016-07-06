@@ -136,4 +136,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => navigation);
+AppRegistry.registerComponent('SalesToolProject', () => navigation);
